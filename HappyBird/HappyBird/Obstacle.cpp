@@ -1,56 +1,45 @@
-//	Obstacle.cpp
-//	Justin Hampton, July 9, 2014
+// Obstacle.cpp
+// Justin Hampton July 9, 2014
+// Updated for SFML 3.x
 
 #include "Obstacle.h"
 #include "HappyBird.h"
 #include <iostream>
-#include <time.h>
+#include <ctime>
 
-//	Default constructor
-Obstacle::Obstacle( std::string obstacleFile, float x, float y ){
+Obstacle::Obstacle(const std::string& obstacleFile, float x, float y) {
 
-	
-	if (!obstacleTexture.loadFromFile(obstacleFile)){
-		std::cout << "unable to load obstacleTexture from file" << std::endl;
-	}
-	
-	obstacle.setTexture(obstacleTexture);
-	obstacle.setPosition( x, y );
+    if (!obstacleTexture.loadFromFile(obstacleFile)) {
+        std::cout << "unable to load obstacleTexture from file" << std::endl;
+    }
 
-	//	Random number for obstacle position
-	srand( time(NULL) );
-	randNum = rand() % 800 - VIEW_HEIGHT;
+    obstacle.emplace(obstacleTexture);
+    obstacle->setPosition({x, y});
 
-}//end default contructor
+    srand(static_cast<unsigned>(time(nullptr)));
+    randNum = static_cast<float>(rand() % 800) - VIEW_HEIGHT;
 
-//	Moves the obstacle across the screen
-void Obstacle::moveObstacle(){
+} // end constructor
 
-	if ( obstacle.getPosition().x > -300 ){
+void Obstacle::moveObstacle() {
 
-		obstacle.move( -2.f, 0.f );
-	}
+    if (obstacle->getPosition().x > -300.f) {
+        obstacle->move({-2.f, 0.f});
+    } else {
+        randNum = static_cast<float>(rand() % 800) - VIEW_HEIGHT;
+        obstacle->setPosition({VIEW_WIDTH, randNum});
+    }
 
-	//	Reset obstacle
-	else{
-		randNum = rand() % 800 - VIEW_HEIGHT;
-		obstacle.setPosition( VIEW_WIDTH, randNum );
-	}
+} // end moveObstacle()
 
-}//end moveObstacle() function
+const sf::Sprite& Obstacle::getObstacle() const {
+    return *obstacle;
+}
 
-//	Returns the obstacle sf::sprite
-sf::Sprite Obstacle::getObstacle(){
+void Obstacle::initializeObstacle(float xPosition) {
 
-	return obstacle;
-}//end getObstacle() function
+    randNum = static_cast<float>(rand() % 800) - VIEW_HEIGHT;
+    obstacle->setTexture(obstacleTexture);
+    obstacle->setPosition({xPosition, randNum});
 
-//	Initializes the obstacle (to avoid white square on start up)
-void Obstacle::initializeObstacle( float xPosition ){	
-
-	randNum = rand() % 800 - VIEW_HEIGHT;
-
-	obstacle.setTexture( obstacleTexture );
-	obstacle.setPosition( xPosition, randNum );
-
-}//end initializeObstacle() function
+} // end initializeObstacle()

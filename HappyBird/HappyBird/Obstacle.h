@@ -1,32 +1,38 @@
-//	Obstacle.h
-//	Justin Hampton July 9, 2014
+// Obstacle.h
+// Justin Hampton July 9, 2014
+// Updated for SFML 3.x
 
 #ifndef OBSTACLE_H
 #define OBSTACLE_H
 
-#define OBSTACLE_WIDTH 100.f
-#define OBSTACLE_HEIGHT 1600.f
-#define VIEW_WIDTH 1200.f
+#include <optional>
+#include <string>
+#include <SFML/Graphics.hpp>
 
-#include <SFML\Graphics.hpp>
+constexpr float OBSTACLE_WIDTH  = 100.f;
+constexpr float OBSTACLE_HEIGHT = 1600.f;
+#ifndef VIEW_WIDTH
+constexpr float VIEW_WIDTH = 1200.f;
+#endif
 
-class Obstacle{
+class Obstacle {
 
 private:
-	sf::Texture obstacleTexture;
-	sf::Sprite obstacle;
+    sf::Texture obstacleTexture;
+    std::optional<sf::Sprite> obstacle;
 
-	float randNum;
+    float randNum;
 
 public:
-	Obstacle ( std::string obstacleFile = "obstacle.bmp", float x = VIEW_WIDTH, float y = 0.f );
+    Obstacle(const std::string& obstacleFile = "obstacle.bmp",
+             float x = VIEW_WIDTH,
+             float y = 0.f);
 
-	void moveObstacle();
+    void moveObstacle();
 
-	sf::Sprite getObstacle();
+    const sf::Sprite& getObstacle() const;
 
-	void initializeObstacle( float xPosition = VIEW_WIDTH );
-
-};//end class
+    void initializeObstacle(float xPosition = VIEW_WIDTH);
+};
 
 #endif

@@ -1,110 +1,87 @@
-//	HappyBird.h
-//	Justin Hampton
-//	4/23/14
+// HappyBird.h
+// Justin Hampton 4/23/14
+// Updated for SFML 3.x
 
 #ifndef HAPPYBIRD_H
 #define HAPPYBIRD_H
 
-#define VIEW_WIDTH 1200.f
-#define VIEW_HEIGHT 800.f
-
+#include <optional>
+#include <string>
 #include "Bird.h"
 #include "Obstacle.h"
 
-class HappyBird{
+// VIEW_WIDTH (1200.f) comes from Obstacle.h
+constexpr float VIEW_HEIGHT = 800.f;
+
+class HappyBird {
 
 private:
+    Bird bird;
+    Obstacle obstacle;
+    Obstacle obstacle2;
+    Obstacle bonus;
 
-	Bird bird;
-	Obstacle obstacle;
-	Obstacle obstacle2;
-	Obstacle bonus;
+    bool flapping;
+    bool firstFrame;
+    bool birdDied;
+    bool dying;
+    bool paused;
+    bool gameIsOver;
+    bool startMusic;
 
-	bool flapping;		// This should belong to the Bird class
-	bool firstFrame;	// Used for flapping animation (to raise bird over set amount of time)
-	bool birdDied;
-	bool dying;
-	bool paused;
-	bool gameIsOver;
-	bool startMusic;	// Used to play background music at the start of a new game or on resume
+    sf::Clock flapClock;
+    sf::Clock animationClock;
+    sf::Clock pauseClock;
+    sf::Clock musicClock;
 
-	sf::Clock flapClock;		//	elapsed time since flapping started
-	sf::Clock animationClock;	//	elapsed time since last animation update
-	sf::Clock pauseClock;		//	Clock to keep up with amount of time game is paused
-	sf::Clock musicClock;		//	For tracking time of background music
+    sf::Time flapTime;
+    sf::Time animationTime;
+    sf::Time totalFlapTime;
+    sf::Time totalAnimationTime;
+    sf::Time pauseTime;
+    sf::Time musicTime;
+    sf::Time totalMusicTime;
 
-	sf::Time flapTime;
-	sf::Time animationTime;
-	sf::Time totalFlapTime;
-	sf::Time totalAnimationTime;
-	sf::Time pauseTime;
-	sf::Time musicTime;
-	sf::Time totalMusicTime;
+    sf::Texture backgroundTexture;
+    sf::Texture gameOverTexture;
 
-	sf::Texture backgroundTexture;
-	sf::Texture gameOverTexture;
-	sf::Texture highScoreTexture;
+    std::optional<sf::Sprite> background;
 
-	sf::Sprite background;
-
-	int score;
-	int lives;	
-	int obstacleCount;
+    int score;
+    int lives;
+    int obstacleCount;
 
 public:
+    HappyBird();
 
-	//	Default constructor
-	HappyBird();
+    void play();
+    void initialize();
+    void flap(sf::Time flapTime);
+    void dontFlap();
 
-	void play();
-	void initialize();
-	void flap(sf::Time flapTime);
-	void dontFlap();// Calls raiseWing() function to lower bird's position
+    bool getFlapping();
+    void setFlapping(bool flapping);
 
-	bool getFlapping();
-	void setFlapping(bool flapping);
+    sf::Time getFlapTime();
+    sf::Time getAnimationTime();
 
-	sf::Time getFlapTime();
-	sf::Time getAnimationTime();
+    void setFlapTime(sf::Time flapTime);
+    void setAnimationTime(sf::Time animationTime);
 
-	void setFlapTime(sf::Time flapTime);
-	void setAnimationTime(sf::Time animationTime);
+    sf::Time getTotalFlapTime();
+    sf::Time getTotalAnimationTime();
 
-	sf::Time getTotalFlapTime();
-	sf::Time getTotalAnimationTime();
+    int getLives();
 
-	int getLives();
+    std::string intToString(int num);
 
-	std::string intToString(int num);
+    Bird getBird();
 
-	void moveObstacle(sf::Sprite o);
-
-	Bird getBird();
-
-	void killBird();
-	void revive();
-	void pause();
-	void restart();
-	void gameOver();
-
-};//end class
-
+    void killBird();
+    void revive();
+    void pause();
+    void restart();
+    void gameOver();
+};
 
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
