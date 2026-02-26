@@ -1,3 +1,27 @@
+# Build output
+build/
+*.exe
+*.ilk
+*.obj
+*.dll
+
+# Visual Studio project files
+*.sln
+*.sdf
+*.suo
+*.vcxproj
+*.vcxproj.*
+
+# VS build artifacts
+Debug/
+Release/
+*.tlog
+*.lastbuildstate
+*.log
+*.idb
+*.pd_
+*.pdb/
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
