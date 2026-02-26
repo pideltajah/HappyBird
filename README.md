@@ -40,3 +40,31 @@ If SFML is installed somewhere other than `C:/SFML`, pass the path at configure 
 ```bash
 cmake .. -G Ninja -DSFML_DIR="D:/libs/SFML/lib/cmake/SFML"
 ```
+
+## Installing
+
+### Windows — Installer
+
+1. Install [Inno Setup](https://jrsoftware.org/isinfo.php)
+2. Build the game first (see Build Steps above)
+3. Open `installer/happybird.iss` in Inno Setup Compiler
+4. Compile (Ctrl+F9) — outputs `dist/HappyBirdSetup.exe`
+
+The installer includes a setup wizard, installs to Program Files, creates Start Menu and optional Desktop shortcuts, and includes an uninstaller.
+
+### Linux — Install Script
+
+The install script handles everything automatically: installs dependencies, builds SFML 3 from source if needed, builds HappyBird, and installs it system-wide.
+
+```bash
+git clone https://github.com/pideltajah/HappyBird.git
+cd HappyBird
+./installer/install.sh
+happybird                 # run from anywhere
+```
+
+To uninstall:
+
+```bash
+./installer/uninstall.sh
+```
