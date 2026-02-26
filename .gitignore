@@ -1,5 +1,7 @@
 # Build output
 build/
+build-linux/
+dist/
 *.exe
 *.ilk
 *.obj
